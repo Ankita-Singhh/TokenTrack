@@ -21,6 +21,9 @@ import CreateNoticeForm from "@/components/forms/CreateNoticeForm";
 import CreateManagerForm from "@/components/forms/CreateManagerForm";
 import CreateMessForm from "@/components/forms/CreateMessForm";
 import AssignManagerForm from "@/components/forms/AssignManagerForm";
+import StudentList from "@/components/dashboard/StudentList";
+import ManagerList from "@/components/dashboard/ManagerList";
+import MessList from "@/components/dashboard/MessList";
 
 const menuItems = [
   {
@@ -38,6 +41,10 @@ export default function AdminDashboard() {
   const [openMessModal, setOpenMessModal] = useState(false);
   const [openManagerModal, setOpenManagerModal] = useState(false);
   const [openAssignManagerModal, setOpenAssignManagerModal] = useState(false);
+  const [openStudentsModal, setOpenStudentsModal] = useState(false);
+const [studentType, setStudentType] = useState("approved");
+const [openManagersModal, setOpenManagersModal] = useState(false);
+const [openMessesModal, setOpenMessesModal] = useState(false);
 
   useEffect(() => {
     loadAnalytics();
@@ -97,6 +104,19 @@ const handleManagerAssigned = () => {
   loadAnalytics();
 };
 
+const handleStudentCardClick = (type) => {
+  setStudentType(type);
+  setOpenStudentsModal(true);
+};
+
+const handleManagerCardClick = () => {
+  setOpenManagersModal(true);
+};
+
+const handleMessCardClick = () => {
+  setOpenMessesModal(true);
+};
+
   return (
     <DashboardLayout
       title="Admin Dashboard"
@@ -112,6 +132,7 @@ const handleManagerAssigned = () => {
   status="Approved"
   color="#2563EB"
   icon={Users}
+  onClick={() => handleStudentCardClick("approved")}
 />
 
 <StatsCard
@@ -120,6 +141,7 @@ const handleManagerAssigned = () => {
   status="Waiting Approval"
   color="#F59E0B"
   icon={UserCog}
+  onClick={() => handleStudentCardClick("pending")}
 />
 
 <StatsCard
@@ -128,6 +150,7 @@ const handleManagerAssigned = () => {
   status="Active Managers"
   color="#10B981"
   icon={UserCog}
+  onClick={handleManagerCardClick}
 />
 
 <StatsCard
@@ -136,6 +159,7 @@ const handleManagerAssigned = () => {
   status="Running"
   color="#8B5CF6"
   icon={Building2}
+  onClick={handleMessCardClick}
 />
 
       </div>
@@ -210,6 +234,34 @@ const handleManagerAssigned = () => {
   <AssignManagerForm
     onClose={handleManagerAssigned}
   />
+</Modal>
+
+<Modal
+  isOpen={openStudentsModal}
+  onClose={() => setOpenStudentsModal(false)}
+  title={
+  studentType === "approved"
+    ? "Approved Students"
+    : "Pending Students"
+}
+>
+  <StudentList status={studentType} />
+</Modal>
+
+<Modal
+  isOpen={openManagersModal}
+  onClose={() => setOpenManagersModal(false)}
+  title="Managers"
+>
+  <ManagerList />
+</Modal>
+
+<Modal
+  isOpen={openMessesModal}
+  onClose={() => setOpenMessesModal(false)}
+  title="Messes"
+>
+  <MessList />
 </Modal>
 
 </div>

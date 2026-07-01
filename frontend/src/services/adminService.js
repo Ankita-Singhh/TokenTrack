@@ -31,3 +31,16 @@ export const assignManager = async (data) => {
   const response = await api.put("/admin/assign-manager", data);
   return response.data;
 };
+
+export const getStudentsByStatus = async (status) => {
+  const response = await api.get(
+    `/admin/students?status=${status}`
+  );
+
+  return response.data.students;
+};
+
+export const getManagersList = async () => {
+  const response = await api.get("/admin/managers");
+  return response.data.managers;
+};

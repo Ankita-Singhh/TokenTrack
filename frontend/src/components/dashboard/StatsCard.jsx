@@ -8,10 +8,13 @@ export default function StatsCard({
   icon: Icon,
   color,
   status,
+  onClick,
 }) {
   return (
     <div
+    onClick={onClick}
       className="
+      cursor-pointer
       group
       relative
       overflow-hidden
